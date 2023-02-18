@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
-import { Observable, of, throwError } from "rxjs";
-import { delay, tap } from "rxjs/operators";
+import { Injectable } from '@angular/core';
+import { Observable, of, throwError } from 'rxjs';
+import { delay, tap } from 'rxjs/operators';
 
 /**
  * This service acts as a mock backend.
@@ -29,29 +29,28 @@ export class BackendService {
   storedTasks: Task[] = [
     {
       id: 0,
-      description: "Install a monitor arm",
+      description: 'Install a monitor arm',
       assigneeId: 111,
-      completed: false
+      completed: false,
     },
     {
       id: 1,
-      description: "Move the desk to the new location",
+      description: 'Move the desk to the new location',
       assigneeId: 111,
-      completed: false
-    }
+      completed: false,
+    },
   ];
 
   storedUsers: User[] = [
-    { id: 111, name: "Mike" },
-    { id: 222, name: "James" }
+    { id: 111, name: 'Mike' },
+    { id: 222, name: 'James' },
   ];
 
   lastId = 1;
 
-  private findTaskById = id =>
-    this.storedTasks.find(task => task.id === +id);
+  private findTaskById = (id) => this.storedTasks.find((task) => task.id === +id);
 
-  private findUserById = id => this.storedUsers.find(user => user.id === +id);
+  private findUserById = (id) => this.storedUsers.find((user) => user.id === +id);
 
   tasks() {
     return of(this.storedTasks).pipe(delay(randomDelay()));
@@ -74,7 +73,7 @@ export class BackendService {
       id: ++this.lastId,
       description: payload.description,
       assigneeId: null,
-      completed: false
+      completed: false,
     };
 
     this.storedTasks = this.storedTasks.concat(newTask);
@@ -90,18 +89,16 @@ export class BackendService {
     return this.update(taskId, { completed });
   }
 
-  update(taskId: number, updates: Partial<Omit<Task, "id">>) {
+  update(taskId: number, updates: Partial<Omit<Task, 'id'>>) {
     const foundTask = this.findTaskById(taskId);
 
     if (!foundTask) {
-      return throwError(new Error("task not found"));
+      return throwError(new Error('task not found'));
     }
 
     const updatedTask = { ...foundTask, ...updates };
 
-    this.storedTasks = this.storedTasks.map(t =>
-      t.id === taskId ? updatedTask : t
-    );
+    this.storedTasks = this.storedTasks.map((t) => (t.id === taskId ? updatedTask : t));
 
     return of(updatedTask).pipe(delay(randomDelay()));
   }

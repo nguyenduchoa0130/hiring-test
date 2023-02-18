@@ -1,0 +1,108 @@
+<div class="p-2">
+  <button class="btn btn-outline-primary" (click)="backToTaskList()">Back to task list</button>
+  <h1 class="text-center text-primary text-uppercase">Task Detail</h1>
+  <hr />
+  <ng-container *ngIf="!isLoading">
+    <ng-container *ngIf="task; else notFound">
+      <p>
+        <strong>Assignee: </strong>
+        {{ task.username }}
+      </p>
+      <p>
+        <strong>Description: </strong>
+        {{ task.description }}
+      </p>
+      <p>
+        <strong>Status: </strong>
+        <span class="badge p-1" [ngClass]="getStatusStyle(task.completed)">
+          {{ task.completed ? 'Completed' : 'In progress' }}
+        </span>
+      </p>
+      <div class="mt-2">
+        <div class="actions">
+          <button class="btn btn-success w-50" (click)="completeTask()" *ngIf="!task.completed">
+            Mark done
+          </button>
+          <button
+            class="btn btn-primary"
+            [ngClass]="{ 'w-100': task.completed, 'w-50': !task.completed }"
+            data-toggle="modal"
+            data-target="#updateTaskModal"
+            (click)="getUsers()">
+            Edit
+          </button>
+        </div>
+        <div
+          class="modal fade"
+          id="updateTaskModal"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update Task</h5>
+                <button type="button" class="close" aria-label="Close" (click)="btnCancel.click()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="form">
+                  <div class="form-group">
+                    <div class="form-group">
+                      <label for="desc">Description</label>
+                      <textarea
+                        class="form-control"
+                        id="desc"
+                        rows="5"
+                        formControlName="desc"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-group">
+                      <label for="assignee">Assignee</label>
+                      <select class="form-control" id="assignee" formControlName="assignee">
+                        <option *ngFor="let user of users" [value]="user.id">
+                          {{ user.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-group">
+                      <div class="form-group">
+                        <label for="status">Status</label>
+                        <select class="form-control" id="status" formControlName="status">
+                          <option value="in_progress">In progress</option>
+                          <option value="completed">Completed</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" #btnCancel>
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  [disabled]="form.invalid"
+                  (click)="updateTask()">
+                  Update
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #notFound>
+      <div class="not-found-wrapper">
+        <img src="/assets/not-found-task.png" alt="Not found task" />
+        <h3 class="text-danger text-uppercase">No tasks found</h3>
+      </div>
+    </ng-template>
+  </ng-container>
+</div>

@@ -1,0 +1,26 @@
+.wrapper {
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heading__404 {
+  font-weight: bold;
+  font-size: 64px;
+  padding-right: 8px;
+}
+
+.heading__not-found {
+  font-size: 48px;
+  padding-left: 8px;
+  border-left: 1px solid #000;
+}

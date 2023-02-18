@@ -1,8 +1,4 @@
-<h2>Tasks</h2>
-
-<ul>
-  <li *ngFor="let t of tasks|async">
-    Task: {{t.id}}, {{t.description}}
-  </li>
-</ul>
-
+<div class="container p-2">
+  <router-outlet></router-outlet>
+</div>
+<app-loading-spinner></app-loading-spinner>
